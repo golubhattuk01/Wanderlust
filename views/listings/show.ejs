@@ -1,0 +1,56 @@
+<% layout("/layouts/boilerplate")%>
+<body>
+    <div class="row offset-3">
+            <h3><%= listing.title%>    </h3>
+        
+        <div class="card col-8 ">
+           <img src="<%=listing.image%>" class="card-img-top show-img" alt="listing-img"/> 
+           <div class="card-body">
+                <p><%= listing.description%></p>
+                <p>&#8377; <%= Number(listing.price).toLocaleString("en-IN", { style: 'currency', currency: 'INR' }).replace('₹', '').trim() %>/night</p>
+
+                <p><%= listing.location%></p>
+                <p><%= listing.country%></p>
+                <div class="btns">
+                <a class="btn btn-dark btn-edit" href="/listings/<%=listing._id%>/edit">Edit</a>
+                <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE">
+                <button class="btn btn-dark offset-4">Delete</button>
+                </div>
+                </form>
+            </div>
+            <div class="col-8 mb-3 "><hr>
+                <h4>Leave a Review</h4>
+                <form action="/listings/<%=listing.id%>/reviews" method="POST">
+                    <div class="mb-3 mt-3">
+                        <label for="rating" class="form-label">Your Rating:</label>
+                        <select name="review[rating]" id="rating" class="form-control" required>
+                            <option value="5">5 - Excellent</option>
+                            <option value="4">4 - Very Good</option>
+                            <option value="3">3 - Good</option>
+                            <option value="2">2 - Fair</option>
+                            <option value="1">1 - Poor</option>
+                        </select>
+
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label for="comment" class="form-label">Comments</label>
+                        <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control"></textarea>
+
+                    </div>
+                    <button class="btn btn-outline-dark">Submit</button>
+
+                </form>
+
+                <div class="reviews-section">
+                    <h3>Reviews:</h3>
+                    <% for(review of listing.reviews){ %>
+                        <p><%= review.rating %></p>
+                        <p><%= review.comment %></p>
+                    <%}%>
+                    
+
+            </div>
+        </div>
+        
+    </div>
+</body>
